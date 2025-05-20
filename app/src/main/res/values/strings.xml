@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Assessment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="table_id">Table Id</string>
+    <string name="fetch_order_detail">Fetch Order Detail</string>
+    <string name="split_evenly">Split Evenly</string>
+    <string name="split_by_item">Split by Item</string>
+    <string name="split_by_amount">Split by Amount</string>
+    <string name="split_by_shares">Split by Shares</string>
+    <string name="items_total">Items Total</string>
+</resources>
