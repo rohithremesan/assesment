@@ -18,9 +18,5 @@
         android:id="@+id/orderDetailFragment"
         android:name="com.example.assessment.ui.orderdetail.view.fragment.OrderDetailFragment"
         android:label="fragment_order_detail"
-        tools:layout="@layout/fragment_order_detail" >
-        <action
-            android:id="@+id/action_orderDetailFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_order_detail" />
 </navigation>

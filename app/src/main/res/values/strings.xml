@@ -9,4 +9,9 @@
     <string name="split_by_amount">Split by Amount</string>
     <string name="split_by_shares">Split by Shares</string>
     <string name="items_total">Items Total</string>
+    <string name="percentage_symbol">%</string>
+    <string name="euro">€</string>
+    <string name="no_data_found">No Data Found</string>
+    <string name="split_by_percentage">Split By Percentage</string>
+    <string name="pay">Pay</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.assessment.ui.orderdetail.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,14 +22,24 @@ class OrderDetailViewModel @Inject constructor( private val repository: OrderDet
 
     private val _orderDetail = MutableStateFlow<ApiState>(ApiState.Nothing)
     val orderDetail: StateFlow<ApiState> = _orderDetail
-     var modifiedItemList: List<OrderItem> = listOf()
-    var orderData:Order?=null
+    private val _numberOfMembers = MutableLiveData<Int>()
+    val numberOfMembers: LiveData<Int> = _numberOfMembers
+    private val _totalAmount = MutableLiveData<Double>()
+    val totalAmount: LiveData<Double> = _totalAmount
+    private val _oderItems = MutableLiveData<ArrayList<OrderItem>>()
+    val oderItems: LiveData<ArrayList<OrderItem>> = _oderItems
 
-    fun getOrderDetails(){
+
+    fun getOrderDetails(tableId: Int){
 
         viewModelScope.launch {
-            repository.getOrderDetails(86).collect {
+            repository.getOrderDetails(tableId).collect {
                 _orderDetail.value=it
+                if (it is ApiState.Success){
+                    if (!it.data.message.isEmpty()){
+                        setValues(it.data.message[0])
+                    }
+                }
             }
 
 
@@ -35,6 +47,12 @@ class OrderDetailViewModel @Inject constructor( private val repository: OrderDet
 
     }
 
+    fun setValues(data: OrderMessage){
+        _totalAmount.value=data.order.total.toDouble()
+        _numberOfMembers.value=data.order.familyCount!!.toInt()
+        _oderItems.value=data.items
+
+    }
 
     fun clearData(){
         _orderDetail.value= ApiState.Nothing

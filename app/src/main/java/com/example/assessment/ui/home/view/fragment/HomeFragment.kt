@@ -63,7 +63,7 @@ private val viewModel : OrderDetailViewModel by activityViewModels()
 
         }else{
             if (isNetworkAvailable(requireContext())) {
-                viewModel.getOrderDetails()
+                viewModel.getOrderDetails(homeViewModel.tableIdValue.toInt())
             } else {
                 Snackbar.make(binding.root, "No internet connection", Snackbar.LENGTH_SHORT).show()
             }
@@ -80,7 +80,10 @@ private val viewModel : OrderDetailViewModel by activityViewModels()
                     }
                     is ApiState.Success->{
                         binding.progressBar.visibility= View.GONE
-                        findNavController().navigate(R.id.action_homeFragment_to_orderDetailFragment)
+                        val navController = findNavController()
+                        if (navController.currentDestination?.id == R.id.homeFragment) {
+                            navController.navigate(R.id.action_homeFragment_to_orderDetailFragment)
+                        }
                     }
                     is ApiState.Failure->{
                         binding.progressBar.visibility= View.GONE

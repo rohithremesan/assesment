@@ -1,28 +1,33 @@
 package com.example.assessment.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assessment.BR
+import com.example.assessment.data.models.Member
+import com.example.assessment.databinding.SplitByItemRvBinding
+import com.example.assessment.ui.orderdetail.viewmodel.PaymentViewModel
+import com.example.assessment.ui.util.RecyclerViewType
 
 
 class OderRecyclerViewAdapter<T: Any>(
-    private var items: List<T>,
-    private val itemLayoutId: Int
+    private val items: ArrayList<T>?=null,
+    private val itemLayoutId: Int,
+    private val viewType: RecyclerViewType,
+    private val viewModel: PaymentViewModel?=null,
+    private val lifecycleOwner: LifecycleOwner?=null,
+    private val memberList: ArrayList<Member>?=null,
 ) :
-    RecyclerView.Adapter<OderRecyclerViewAdapter<T>.GenericViewHolder>() {
-
-    inner class GenericViewHolder(private val binding: ViewDataBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: T) {
-            binding.setVariable(BR.data,item)
-            binding.executePendingBindings()
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(
             inflater, itemLayoutId, parent, false
@@ -30,20 +35,65 @@ class OderRecyclerViewAdapter<T: Any>(
         return GenericViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: GenericViewHolder, position: Int) {
-        holder.bind(items[position])
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
+       holder as OderRecyclerViewAdapter<T>.GenericViewHolder
+        when(viewType){
+            RecyclerViewType.NORMAL -> holder.bind(items!!.get(position))
+            RecyclerViewType.ITEM -> holder.bind(items!!.get(position))
+            else -> holder.bindMember(memberList!!.get(position))
+        }
+
     }
 
-    override fun getItemCount(): Int = items.size
+    inner class GenericViewHolder(private val binding: ViewDataBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: T) {
+            binding.setVariable(BR.data,item)
+            if (viewType == RecyclerViewType.ITEM){
+                binding.setVariable(BR.viewModel,viewModel)
+                binding.setVariable(BR.viewType,viewType)
+                val context = binding.root.context
+                binding as SplitByItemRvBinding
+                val dropDownValue = mutableListOf<String>()
+                memberList?.forEach {
+                    dropDownValue.add(it.name)
+                }
+                val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, dropDownValue)
+                binding.dropdown.setAdapter(adapter)
+                binding.dropdown.setOnItemClickListener { parent, view, position, id ->
+                    val selected = dropDownValue[position]
+                    Log.d("RvAdapter","dropdown :$selected")
 
+                }
+            }
 
-
-
-
-    fun submitList(newList: List<T>) {
-        items=newList
-        notifyDataSetChanged()
+            binding.lifecycleOwner=lifecycleOwner
+            binding.executePendingBindings()
+        }
+        fun bindMember(item: Member) {
+            binding.setVariable(BR.data,item)
+            binding.setVariable(BR.viewModel,viewModel)
+           if (viewType!= RecyclerViewType.SHARE){
+               binding.setVariable(BR.viewType,viewType)
+           }
+            binding.lifecycleOwner=lifecycleOwner
+            binding.executePendingBindings()
+        }
     }
+
+
+    override fun getItemCount(): Int {
+       return when (viewType){
+           RecyclerViewType.NORMAL -> items!!.size
+           RecyclerViewType.ITEM -> items!!.size
+          else -> memberList!!.size
+       }
+    }
+
+
 }
 
 

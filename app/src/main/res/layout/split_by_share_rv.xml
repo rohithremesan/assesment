@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <variable name="data" type="com.example.assessment.data.models.Member" />
+        <variable
+            name="viewModel"
+            type="com.example.assessment.ui.orderdetail.viewmodel.PaymentViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="10"
+                android:text="@{data.name}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{data.amountShare}" />
+        </LinearLayout>
+
+
+        <include
+            data="@{data}"
+            layout="@layout/counter_view"
+            viewModel="@{viewModel}"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+
+
+
+</layout>
