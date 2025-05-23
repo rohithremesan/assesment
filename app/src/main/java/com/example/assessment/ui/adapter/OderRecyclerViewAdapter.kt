@@ -1,5 +1,7 @@
 package com.example.assessment.ui.adapter
 
+
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,10 +11,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assessment.BR
+import com.example.assessment.R
 import com.example.assessment.data.models.Member
 import com.example.assessment.databinding.SplitByItemRvBinding
 import com.example.assessment.ui.orderdetail.viewmodel.PaymentViewModel
 import com.example.assessment.ui.util.RecyclerViewType
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 
 
 class OderRecyclerViewAdapter<T: Any>(
@@ -53,21 +57,25 @@ class OderRecyclerViewAdapter<T: Any>(
         fun bind(item: T) {
             binding.setVariable(BR.data,item)
             if (viewType == RecyclerViewType.ITEM){
+                Log.d("RvAdapter","b :$binding")
                 binding.setVariable(BR.viewModel,viewModel)
                 binding.setVariable(BR.viewType,viewType)
                 val context = binding.root.context
-                binding as SplitByItemRvBinding
-                val dropDownValue = mutableListOf<String>()
-                memberList?.forEach {
-                    dropDownValue.add(it.name)
-                }
-                val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, dropDownValue)
-                binding.dropdown.setAdapter(adapter)
-                binding.dropdown.setOnItemClickListener { parent, view, position, id ->
-                    val selected = dropDownValue[position]
-                    Log.d("RvAdapter","dropdown :$selected")
+                if (binding is SplitByItemRvBinding){
+                    val dropDownValue = mutableListOf<String>()
+                    memberList?.forEach {
+                        dropDownValue.add(it.name)
+                    }
+                    Log.d("RvAdapter","dropdown :$dropDownValue")
+                   val adapter= ArrayAdapter(context,android.R.layout.simple_spinner_dropdown_item,dropDownValue)
+                    binding.dropdown.setAdapter(adapter)
+                    binding.dropdown.setOnItemClickListener { parent, view, position, id ->
+                        val selected = dropDownValue[position]
+                        Log.d("RvAdapter","dropdown :$selected")
 
+                    }
                 }
+
             }
 
             binding.lifecycleOwner=lifecycleOwner

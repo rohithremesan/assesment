@@ -99,7 +99,7 @@ class OrderDetailFragment : Fragment() {
         val memberList = createMemberList(memberCount)
         val oderItems = viewModel.oderItems.value
         paymentViewModel.setValueForCalculation(memberList,totalAmount)
-        val oderItemAdapter = OderRecyclerViewAdapter<OrderItem>(itemLayoutId = R.layout.split_by_item_rv, items = oderItems, viewType = RecyclerViewType.ITEM, lifecycleOwner = viewLifecycleOwner, viewModel = paymentViewModel)
+        val oderItemAdapter = OderRecyclerViewAdapter<OrderItem>(itemLayoutId = R.layout.split_by_item_rv, items = oderItems, viewType = RecyclerViewType.ITEM, lifecycleOwner = viewLifecycleOwner, viewModel = paymentViewModel, memberList = memberList)
         binding.amountRv.adapter=oderItemAdapter
         binding.amountRv.layoutManager= LinearLayoutManager(requireContext())
 
@@ -169,7 +169,10 @@ class OrderDetailFragment : Fragment() {
                             binding.nodataTxt.visibility= View.GONE
                             binding.parentLinearLayout.visibility= View.VISIBLE
                             val data = it.data.message[0]
-                            val oderItemAdapter = OderRecyclerViewAdapter<OrderItem>(itemLayoutId = R.layout.items_rv, items = data.items, viewType = RecyclerViewType.ITEM, lifecycleOwner = viewLifecycleOwner)
+                            val onlyOderdedItems = ArrayList(
+                                data.items.filter { it.quantity >= 1 }
+                            )
+                            val oderItemAdapter = OderRecyclerViewAdapter<OrderItem>(itemLayoutId = R.layout.items_rv, items = onlyOderdedItems, viewType = RecyclerViewType.ITEM, lifecycleOwner = viewLifecycleOwner)
                             binding.itemRv.adapter=oderItemAdapter
                             binding.itemRv.layoutManager= LinearLayoutManager(requireContext())
                         }

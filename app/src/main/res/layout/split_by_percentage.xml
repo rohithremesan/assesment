@@ -14,7 +14,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:gravity="center|start"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
-                android:text="@{data.name}"/>
+                android:text="@{data.name}" />
 
             <EditText
                 android:id="@+id/editTextText"
@@ -34,14 +35,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="number"
-                android:text="@={data.percentage}"
-                app:onPercentageChanged='@{data.percentage}'
-                app:memberObject='@{data}'
-                app:viewModel='@{viewModel}'
-                app:errorText="@{data.error}"
-                app:viewType="@{viewType}"
                 android:maxLength="3"
-               />
+                android:text="@={data.percentage}"
+                app:errorText="@{data.error}"
+                app:memberObject='@{data}'
+                app:onPercentageChanged='@{data.percentage}'
+                app:viewModel='@{viewModel}'
+                app:viewType="@{viewType}" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{data.amountShare}'/>
+            android:text='@{"£"+data.amountShare}' />
 
     </LinearLayout>
 </layout>

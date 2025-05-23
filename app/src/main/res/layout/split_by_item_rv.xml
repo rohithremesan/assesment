@@ -10,41 +10,47 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:minHeight="120dp"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:baselineAligned="false">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="5"
-            android:text="@{data.itemName}" />
+            android:layout_weight="2"
+            android:text="@{data.itemName}"
+            android:textSize="16sp"
+            android:paddingEnd="8dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.4"
-            android:text='@{"$"+data.price}' />
+            android:layout_weight="1"
+            android:text='@{"£" + data.price}'
+            android:textSize="16sp"
+            android:gravity="end"
+            android:paddingEnd="8dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/menu"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="100dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:layout_weight="2"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp">
 
             <AutoCompleteTextView
                 android:id="@+id/dropdown"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:inputType="none"
-
-                />
-
+                android:hint="Select Member"
+                android:padding="8dp" />
         </com.google.android.material.textfield.TextInputLayout>
-
     </LinearLayout>
+
 </layout>

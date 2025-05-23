@@ -15,41 +15,37 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="10"
+            android:text="@{data.name}"
+            android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:text="@{data.name}"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="@string/euro" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="@string/pound" />
 
-            <EditText
-                android:id="@+id/editTextText"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@={data.amountShare}"
-                android:inputType="number"
-                android:maxLength="5"
-                app:onPercentageChanged='@{data.amountShare}'
-                app:memberObject='@{data}'
-                app:viewModel='@{viewModel}'
-                app:errorText="@{data.error}"
-                app:viewType="@{viewType}"/>
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:maxLength="5"
+            android:text="@={data.amountShare}"
+            app:errorText="@{data.error}"
+            app:memberObject='@{data}'
+            app:onPercentageChanged='@{data.amountShare}'
+            app:viewModel='@{viewModel}'
+            app:viewType="@{viewType}" />
 
-
-        </LinearLayout>
 
     </LinearLayout>
 </layout>
