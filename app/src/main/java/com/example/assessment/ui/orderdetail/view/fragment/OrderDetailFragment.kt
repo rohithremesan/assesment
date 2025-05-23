@@ -99,7 +99,10 @@ class OrderDetailFragment : Fragment() {
         val memberList = createMemberList(memberCount)
         val oderItems = viewModel.oderItems.value
         paymentViewModel.setValueForCalculation(memberList,totalAmount)
-        val oderItemAdapter = OderRecyclerViewAdapter<OrderItem>(itemLayoutId = R.layout.split_by_item_rv, items = oderItems, viewType = RecyclerViewType.ITEM, lifecycleOwner = viewLifecycleOwner, viewModel = paymentViewModel, memberList = memberList)
+        val onlyOderdedItems = ArrayList(
+            oderItems.filter { it.quantity >= 1 }
+        )
+        val oderItemAdapter = OderRecyclerViewAdapter<OrderItem>(itemLayoutId = R.layout.split_by_item_rv, items = onlyOderdedItems, viewType = RecyclerViewType.ITEM, lifecycleOwner = viewLifecycleOwner, viewModel = paymentViewModel, memberList = memberList)
         binding.amountRv.adapter=oderItemAdapter
         binding.amountRv.layoutManager= LinearLayoutManager(requireContext())
 
